@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, Shield } from "lucide-react"
 import { useDarkMode } from "@/hooks/use-dark-mode"
 
 export default function LoginPage() {
@@ -16,6 +16,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isAdminMode, setIsAdminMode] = useState(false)
   const { isDarkMode, toggleDarkMode } = useDarkMode()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,8 +24,13 @@ export default function LoginPage() {
     setIsLoading(true)
 
     setTimeout(() => {
-      localStorage.setItem("employeeName", username)
-      router.push("/dashboard")
+      if (isAdminMode) {
+        localStorage.setItem("adminName", username)
+        router.push("/admin")
+      } else {
+        localStorage.setItem("employeeName", username)
+        router.push("/dashboard")
+      }
     }, 1000)
   }
 
@@ -39,11 +45,25 @@ export default function LoginPage() {
 
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-primary">
-            <span className="text-2xl font-bold text-primary-foreground">CO</span>
+          <div
+            className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl ${isAdminMode ? "bg-destructive" : "bg-primary"
+              } transition-colors`}
+          >
+            {isAdminMode ? (
+              // <Shield className="h-8 w-8 text-primary-foreground" />
+              <img src="/greentech_treeonly.svg" alt="Logo Greentech" className="text-primary-foreground" />
+            ) : (
+              // <span className="text-2xl font-bold text-primary-foreground">CO</span>
+              <img src="/greentech_treeonly.svg" alt="Logo Greentech" />
+
+            )}
           </div>
-          <CardTitle className="text-2xl font-bold">Bem-vindo de Volta</CardTitle>
-          <CardDescription>Entre para acessar seu painel da empresa</CardDescription>
+          <CardTitle className="text-2xl font-bold">
+            {isAdminMode ? "Acesso Administrativo" : "Bem-vindo de Volta"}
+          </CardTitle>
+          <CardDescription>
+            {isAdminMode ? "Entre com suas credenciais de administrador" : "Entre para acessar seu painel da empresa"}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,8 +91,36 @@ export default function LoginPage() {
                 className="transition-all focus:ring-2 focus:ring-primary"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Entrando..." : "Entrar"}
+
+            {
+              isAdminMode ? <Button type="submit" className="w-full bg-[#bb0a14]" disabled={isLoading}>
+                {isLoading ? "Entrando..." : "Entrar"}
+              </Button>
+
+                :
+
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Entrando..." : "Entrar"}
+                </Button>
+            }
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">ou</span>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full gap-2 bg-transparent"
+              onClick={() => setIsAdminMode(!isAdminMode)}
+            >
+              <Shield className="h-4 w-4" />
+              {isAdminMode ? "Voltar ao Login Normal" : "Login Administrativo"}
             </Button>
           </form>
         </CardContent>

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/header"
-import { useDarkMode } from "@/hooks/use-dark-mode"
 import { WelcomeSection } from "@/components/dashboard/welcome-section"
 import { ImportantDatesSection } from "@/components/dashboard/important-dates-section"
 import { TimesheetStatusSection } from "@/components/dashboard/timesheet-status-section"
@@ -12,11 +11,9 @@ import { AnnouncementsSection } from "@/components/dashboard/announcements-secti
 
 export default function DashboardPage() {
   const router = useRouter()
-  const { isDarkMode, toggleDarkMode } = useDarkMode()
-  const [employeeName, setEmployeeName] = useState("Employee")
+  const [employeeName, setEmployeeName] = useState("")
 
   useEffect(() => {
-    // Get employee name from localStorage
     const name = localStorage.getItem("employeeName")
     if (name) {
       setEmployeeName(name)
@@ -26,9 +23,13 @@ export default function DashboardPage() {
     }
   }, [router])
 
+  if (!employeeName) {
+    return null
+  }
+
   return (
     <div className="min-h-screen bg-background">
-      <Header employeeName={employeeName} onToggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode} />
+      <Header userName={employeeName} />
 
       <main className="container mx-auto px-4 py-8 md:px-6">
         <div className="space-y-6">
