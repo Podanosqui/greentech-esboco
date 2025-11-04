@@ -120,7 +120,7 @@ export default function LoginPage() {
               onClick={() => setIsAdminMode(!isAdminMode)}
             >
               <Shield className="h-4 w-4" />
-              {isAdminMode ? "Voltar ao Login Normal" : "Login Administrativo"}
+              {isAdminMode ? "Voltar ao Login de Usuário" : "Ir para Login Administrativo"}
             </Button>
           </form>
         </CardContent>

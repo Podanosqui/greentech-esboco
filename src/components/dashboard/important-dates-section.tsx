@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 const upcomingDates = [
-  { id: 1, title: "Natal", date: "25 de Dez, 2025", type: "feriado" },
-  { id: 2, title: "Reunião de Revisão do 1º Trimestre", date: "28 de Dez, 2025", type: "evento" },
-  { id: 3, title: "Ano Novo", date: "1 de Jan, 2026", type: "feriado" },
-  { id: 4, title: "Evento de Integração da Equipe", date: "15 de Jan, 2026", type: "evento" },
+  { id: 1, title: "Natal", date: "25 de Dez, 2025", type: "Feriado" },
+  { id: 2, title: "Reunião de Revisão do 4º Trimestre", date: "28 de Dez, 2025", type: "Evento" },
+  { id: 3, title: "Ano Novo", date: "1 de Jan, 2026", type: "Feriado" },
+  { id: 4, title: "Evento de Integração da Equipe", date: "15 de Jan, 2026", type: "Evento" },
 ]
 
 export function ImportantDatesSection() {
